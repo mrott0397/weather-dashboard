@@ -1,0 +1,9 @@
+
+
+header {
+    background-color: blue;
+    color: white;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+}
