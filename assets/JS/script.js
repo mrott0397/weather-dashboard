@@ -24,7 +24,9 @@ const citySelection = document.querySelector('#city');
 const currentCity = document.querySelector('.card-title');
 const currentTemp = document.querySelector('.temp');
 const currentWind = document.querySelector('.wind');
-const currentHumid = document.querySelector('humid');
+const currentHumid = document.querySelector('.humid');
+const fiveDay1 = document.querySelector('.temp-1');
+const windDay1 = document.querySelector('.wind-1');
 // eventListener for search button
     // function that pulls weather API for city that was entered
     // fetch?
@@ -37,19 +39,20 @@ searchBtn.addEventListener ("click", function(){
     .then(data=>{
         console.log(data);
         currentCity.textContent=data.name
-        currentTemp.textContent=`Temp: ${data.main.temp}`
-        currentWind.textContent=`Wind: `
+        currentTemp.textContent=`Temp: ${data.main.temp} °F`
+        currentWind.textContent=`Wind: ${data.wind.speed} MPH`
+        currentHumid.textContent=`Humidity: ${data.main.humidity}%`
 
 
 
 
 
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${weatherApiKey}`)
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${weatherApiKey}&units=imperial`)
         .then(res=>res.json())
         .then(data=>{
         console.log(data);
-        currentCity.textContent=data.name
-        currentTemp.textContent=`Temp: ${data.main.temp}`
+        fiveDay1.textContent=`Temp: ${data.list[0].main.temp}°F`
+       
     })
 }) 
 })
