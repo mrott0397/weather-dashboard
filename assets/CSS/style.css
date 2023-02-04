@@ -1,7 +1,7 @@
 
 
 header {
-    background-color: blue;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(52,44,122));
     color: white;
     font-family: Georgia, 'Times New Roman', Times, serif;
     display: flex;

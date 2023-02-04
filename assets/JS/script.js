@@ -50,8 +50,20 @@ searchBtn.addEventListener ("click", function(){
         fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${weatherApiKey}&units=imperial`)
         .then(res=>res.json())
         .then(data=>{
-        console.log(data);
-        fiveDay1.textContent=`Temp: ${data.list[0].main.temp}°F`
+            for (let i = 0; i < 5; i++) {
+                let followingDay = data.list[i * 8];
+                console.log(followingDay);
+                // fiveDay1.textContent=`Temp: ${data[1].main.temp} °F`
+                // currentWind.textContent=`Wind: ${data.wind.speed} MPH`
+                // currentHumid.textContent=`Humidity: ${data.main.humidity}%`
+              }
+            // const fiveDayForcast = data.list.slice(1, 5);
+            // fiveDayForcast.forEach((day, index) => {
+            //     console.log(`Day ${index + 1}: ${day.data.list[0]}`);
+            // })
+        // console.log(data);
+
+        // fiveDay1.textContent=`Temp: ${data.list[0].main.temp}°F`
        
     })
 }) 
