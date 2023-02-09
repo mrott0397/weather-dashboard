@@ -61,7 +61,7 @@ searchBtn.addEventListener ("click", function(){
             // fiveDayForcast.forEach((day, index) => {
             //     console.log(`Day ${index + 1}: ${day.data.list[0]}`);
             // })
-        // console.log(data);
+        //
 
         // fiveDay1.textContent=`Temp: ${data.list[0].main.temp}°F`
        
