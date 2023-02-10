@@ -12,12 +12,6 @@
 // THEN I am again presented with current and future conditions for that city
 // ```
 
-// When I open the webpage and I will see a search bar for cities, current weather of location displayed, and 5 day forcast for current location
-// I am able to input a city name and see the weather in that city
-
-// const 5DayWeatherUrl = "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid=0e972c605655";
-// const currentWeatherApi = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=0e972c605655";
-// const https://api.openweathermap.org/data/2.5/weather?q=denver&appid=2ed8061ff6ce1e9f57a40e972c605655
 const weatherApiKey = "2ed8061ff6ce1e9f57a40e972c605655";
 const searchBtn = document.querySelector(".btn");
 const citySelection = document.querySelector('#city');
@@ -25,15 +19,50 @@ const currentCity = document.querySelector('.card-title');
 const currentTemp = document.querySelector('.temp');
 const currentWind = document.querySelector('.wind');
 const currentHumid = document.querySelector('.humid');
-const fiveDay1 = document.querySelector('.temp-1');
-const windDay1 = document.querySelector('.wind-1');
-// eventListener for search button
-    // function that pulls weather API for city that was entered
-    // fetch?
-// displays info from API to page
-    // current date and time weather above 5 day forcast weather
+
+
+ // FOR THE DATE
+var todaysDate = dayjs();
+document.querySelector('#currentDay').textContent=todaysDate.format('MMM D, YYYY');
+console.log(todaysDate); 
+     
 
 searchBtn.addEventListener ("click", function(){
+    let histBtn = document.createElement('button')
+    let listItem = document.createElement('li')
+    histBtn.textContent = citySelection.value
+    document.querySelector('.history').appendChild(listItem)
+    listItem.appendChild(histBtn)
+    histBtn.addEventListener('click', function(){
+        fetch('https://api.openweathermap.org/data/2.5/weather?q='+histBtn.innerHTML+'&appid=2ed8061ff6ce1e9f57a40e972c605655&units=imperial')
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+        currentCity.textContent=data.name
+        currentTemp.textContent=`Temp: ${data.main.temp} °F`
+        currentWind.textContent=`Wind: ${data.wind.speed} MPH`
+        currentHumid.textContent=`Humidity: ${data.main.humidity}%`
+
+
+
+
+
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${weatherApiKey}&units=imperial`)
+        .then(res=>res.json())
+        .then(data=>{
+            for (let i = 1; i < 6; i++) {
+                let followingDay = data.list[i * 8];
+                console.log(followingDay);
+                document.querySelector('.card-title-'+i).textContent=dayjs().add(i, 'days').format('MMM D, YYYY');
+                document.querySelector('.icon-'+i).src= "http://openweathermap.org/img/w/" + data.list[i * 8].weather[0].icon + ".png"
+                document.querySelector('.temp-'+i).textContent=`Temp: ${data.list[i * 8].main.temp} °F`
+                document.querySelector('.wind-'+i).textContent=`Wind: ${data.list[i * 8].wind.speed} MPH`
+                
+              }
+       
+    })
+}) 
+    })
     fetch('https://api.openweathermap.org/data/2.5/weather?q='+citySelection.value+'&appid=2ed8061ff6ce1e9f57a40e972c605655&units=imperial')
     .then(res=>res.json())
     .then(data=>{
@@ -50,22 +79,18 @@ searchBtn.addEventListener ("click", function(){
         fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${data.coord.lat}&lon=${data.coord.lon}&appid=${weatherApiKey}&units=imperial`)
         .then(res=>res.json())
         .then(data=>{
-            for (let i = 0; i < 5; i++) {
+            for (let i = 1; i < 6; i++) {
                 let followingDay = data.list[i * 8];
                 console.log(followingDay);
-                // fiveDay1.textContent=`Temp: ${data[1].main.temp} °F`
-                // currentWind.textContent=`Wind: ${data.wind.speed} MPH`
-                // currentHumid.textContent=`Humidity: ${data.main.humidity}%`
+                document.querySelector('.card-title-'+i).textContent=dayjs().add(i, 'days').format('MMM D, YYYY');
+                document.querySelector('.icon-'+i).src= "http://openweathermap.org/img/w/" + data.list[i * 8].weather[0].icon + ".png"
+                document.querySelector('.temp-'+i).textContent = `Temp: ${data.list[i * 8].main.temp} °F`
+                document.querySelector('.wind-'+i).textContent = `Wind: ${data.list[i * 8].wind.speed} MPH`
+                document.querySelector('.humid-'+i).textContent = `Humidity: ${data.list[i * 8].main.humidity}%`
+                
               }
-            // const fiveDayForcast = data.list.slice(1, 5);
-            // fiveDayForcast.forEach((day, index) => {
-            //     console.log(`Day ${index + 1}: ${day.data.list[0]}`);
-            // })
-        //
-
-        // fiveDay1.textContent=`Temp: ${data.list[0].main.temp}°F`
+           
        
     })
 }) 
 })
-// fetch within current fetch 
